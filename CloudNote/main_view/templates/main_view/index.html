@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CloudNote</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="/static/dist/css/normalize.css">
+        <link rel="stylesheet" href="/static/dist/css/font-awesome.css">
+        <link rel="stylesheet" href="/static/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/dist/css/templatemo-style.css">
+        <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+        <style>
+            .new_main{
+                height:100% ;width:23% ;float:left;background:#4a708c;
+            }
+            .puman{
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+            }
+            html,body{height:100%;overflow-y:hidden;}
+            li{
+              padding: 0px 0px;
+            }
+            .a_style{
+                padding: 10px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <!--<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>-->
+        <![endif]-->
+        <div class="responsive-header visible-xs visible-sm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="top-section">
+                            <div class="profile-image">
+
+                                <img src="{{ IMG_PATH }}{{ user_data.id }}{{ IMG_TYPE}}" onerror="noPic(this)" alt="Volton">
+                            </div>
+                            <div class="profile-content">
+                                <h3 class="profile-title">
+                                    {{ user_data.username }}
+                                </h3>
+                                <p class="profile-description">
+                                    hello, world
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="toggle-menu"><i class="fa fa-bars"></i></a>
+                <div class="main-navigation responsive-menu">
+                    <ul class="navigation">
+                     <li><a href="/editor/" class="a_style" target="content_frame" ><i class="fa fa-pencil-square-o"></i>新建笔记</a></li>
+                    <li><a href="/red/" class="a_style" target="content_frame" ><i class="fa fa-list " aria-hidden="true"></i>审阅所有</a></li>
+                    <li><a href="/search_article/" class="a_style" target="content_frame" ><i class="fa fa-search"></i>高级查找</a></li>
+					<li><a href="/tag_manage/" class="a_style" target="content_frame" ><i class="fa fa-tags"></i>标签管理</a></li>
+                    <li><a href="/about_me/" class="a_style" target="content_frame" ><i class="fa fa-user" ></i> 关  于  我</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+         <div class = "new_main">
+        <!--<div class="sidebar-menu hidden-xs hidden-sm">-->
+            <div class="top-section">
+				<!--将图片渲染成圆圈-->
+                <div class="profile-image">
+                                <img src="{{ IMG_PATH }}{{ user_data.id }}{{ IMG_TYPE}}" onerror="noPic(this)" >
+                            </div>
+                            <div class="profile-content">
+                                <h3 class="profile-title">
+                                    hello,{{ request.user.username }}
+                                </h3>
+                                <p style="color:#FFFFFF">
+                                   {{ request.user.first_name }}
+                                </p>
+            </div> <!-- top-section -->
+            <div class="main-navigation" style="text-align: left">
+                <ul >
+                    <li><a href="/editor/" class="a_style" target="content_frame" style="padding:12px 0px"><i class="fa fa-pencil-square-o"></i>新建笔记</a></li>
+                    <li><a href="/red/" class="a_style" target="content_frame" style="padding:12px 0px"><i class="fa fa-list " aria-hidden="true"></i>审阅所有</a></li>
+                    <li><a href="/search_article/" class="a_style" target="content_frame" style="padding:12px 0px"><i class="fa fa-search"></i>高级查找</a></li>
+					<li><a href="/tag_manage/" class="a_style" target="content_frame" style="padding:12px 0px"><i class="fa fa-tags"></i>标签管理</a></li>
+                    <li><a href="/about_me/" class="a_style" target="content_frame" style="padding:12px 0px"><i class="fa fa-user" ></i> 关  于  我</a></li>
+                    <li><a href="/logout/" class="a_style" style="padding:12px 0px"><i class="fa fa-sign-out" aria-hidden="true"></i>注销登录</a></li>
+                </ul>
+            </div> <!-- .main-navigation -->
+        </div> <!-- .sidebar-menu -->
+         </div>
+        <!-- MAIN CONTENT -->
+        <div style=" height:100% ;width:77% ;float:right">
+            <!--<div class="fluid-container" >-->
+                <!--<div class="puman" >-->
+                    <!--&lt;!&ndash; ABOUT &ndash;&gt;-->
+                    <!--<div  id="about" style="overflow:hidden" >-->
+                        <iframe name="content_frame" src="/editor/" width="100%" height="100%" scrolling="yes"  frameborder="0"></iframe> <!-- #about -->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        </div>
+
+        <script src="/static/js/vendor/jquery-1.10.2.min.js"></script>
+        <script src="/static/js/jquery-3.2.1.min.js"></script>
+        <script src="/static/js/min/plugins.min.js"></script>
+        <script src="/static/js/min/main.min.js"></script>
+        <script>
+            //如果图片未加载成功
+            function noPic() {
+                var img = event.srcElement;
+                img.src = "/static/user_avatar/1.jpg";
+                img.onerror = null;
+            }
+        </script>
+    </body>
+</html>

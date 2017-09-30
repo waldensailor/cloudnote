@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改资料</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="/static/dist/css/bootstrap.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="/static/dist/css/font-awesome.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="/static/dist/css/custom.css" rel="stylesheet" />
+
+    <style>
+             html,body{height: 100%; overflow-x:hidden; }
+             body{
+                margin:0;
+                padding:0;
+                width:100%;
+                height:100%;
+             }
+            .container{
+                width:100%;
+                padding:0px;
+                text-align: center;
+            }
+            html { overflow-x:hidden; }
+             #content {
+                width: 100%;
+                height: 100%;
+                padding:0px;
+                border:0px;
+            }
+
+            #tab_bar {
+                width: 100%;
+                height: 20%;
+                float: left;
+            }
+            #tab_bar ul {
+                padding: 0px;
+                margin: 0px;
+                height: 20px;
+                vertical-align: middle;
+            }
+
+            #tab_bar li {
+                display:block;
+                text-align:center;
+                list-style-type: none;
+{#                display:inline-block;#}
+                float: left;
+                width: 33.333333%;
+                vertical-align: middle;
+                height: 35px;
+                background-color: #f3f3f3;
+            }
+            .tab_css {
+                width: 100%;
+                height: 80%;
+{#                background-color: #ffffff;#}
+                display: none;
+                float: left;
+            }
+            .form-control{
+                width:200px;
+            }
+            .from{
+                width:50%;
+                text-align: center;
+                margin: 100px 200px 100px 200px;
+            }
+        </style>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tabbable" id="tabs-331611">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#panel-448242" data-toggle="tab">个人信息修改</a>
+					</li>
+					<li >
+						<a href="#panel-771105" data-toggle="tab">密码修改</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="panel-448242">
+						<div class="container" style="text-align: center">
+        <form name="change_info" class="from"  >
+            <br/>
+            <div  class="form-group input-group" >
+                <span class="input-group-addon"><i class="fa fa-circle-o-notch"  ></i> 用户昵称</span>
+                <input type="text" class="form-control" id="username" name="username" value="{{ request.user.username }}"/>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">@ 您的邮箱</span>
+                <input type="text" class="form-control" id="email" name="email" value="{{ request.user.email }}"/>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon"><i class="fa fa-certificate" aria-hidden="true"></i> 您的荣誉</span>
+                <input type="text" class="form-control"  id="first_name" name="first_name" value="{{ request.user.first_name }}"/>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i> 您的名字</span>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ request.user.last_name }}"/>
+            </div>
+            <div style="text-align: center">
+                <input type="button" id="me_update_button" value="确认修改"  class="btn btn-success"  style="width: 80px">
+            </div>
+        </form>
+    </div>
+					</div>
+					<div class="tab-pane " id="panel-771105">
+						<form id="change_password" class="from">
+                <div class="content ml2">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"  ></i> </span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="old password"/>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                    <input type="password" class="form-control"  id="new_password" name="password" placeholder="new password"/>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                    <input type="password" class="form-control"  id="re_password" name="repassword" placeholder="replace new password"/>
+            </div>
+                    <div style="text-align: center">
+                <input type="button" id="password_change_button" value="确认修改"  class="btn btn-success"  style="width: 80px">
+            </div>
+         </div>
+        </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+    <script src="/static/js/jquery2.11.min.js"></script>
+    <script src="/static/js/bootstrap3.7.7.min.js"></script>
+    <script type="text/javascript">
+            var myclick = function(v) {
+                var llis = document.getElementsByTagName("li");
+                for(var i = 0; i < llis.length; i++) {
+                    var lli = llis[i];
+                    if(lli == document.getElementById("tab" + v)) {
+                        lli.style.backgroundColor = "#d1d1d1";
+                    } else {
+                        lli.style.backgroundColor = "#f3f3f3";
+                    }
+                }
+                var divs = document.getElementsByClassName("tab_css");
+                for(var i = 0; i < divs.length; i++) {
+                    var divv = divs[i];
+                    if(divv == document.getElementById("tab" + v + "_content")) {
+                        divv.style.display = "block";
+                    } else {
+                        divv.style.display = "none";
+                    }
+                }
+            }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("#me_update_button").on("click",function(){
+                var username = $("#username").val();       //获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                var email = $("#email").val();
+                var first_name = $("#first_name").val();//同上
+                var last_name = $("#last_name").val();
+                if((username!="")&&(email!="")&&(first_name!="")&&(last_name!="")){
+                    var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                    isok = reg.test(email );
+                    if (!isok) {
+                        alert("邮箱格式不正确，请重新输入！");
+                        document.getElementsByName("email").focus();
+                        return false;
+                     }
+                }else{
+                    alert("有信息为空,请检查后重新输入");
+                    return false;
+                 }
+                $.ajax({
+                    type:"POST",
+                    data: {username:username, email:email, first_name:first_name, last_name:last_name},
+                    url: '/me_update/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+            $("#password_change_button").on("click",function(){
+                var password = $("#password").val();       //获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                var new_password = $("#new_password").val();
+                var re_password = $("#re_password").val();//同上
+                if((password!="")&&(new_password!="")&&(re_password!="")&&(last_name!="")){
+                    if (new_password!=re_password) {
+                        alert("两次密码不一致，请重新输入！");
+                        return false;
+                     }
+                     if(new_password.length<6){
+                        alert("密码长度要在6个字符以上，请重新输入！");
+                        return false;
+                     }
+                }else{
+                    alert("信息均不可为空,请检查后重新输入");
+                    return false;
+                 }
+                $.ajax({
+                    type:"POST",
+                    data: {password:password, new_password:new_password},
+                    url: '/change_password/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

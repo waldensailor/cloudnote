@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>readmore</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="/static/dist/css/bootstrap.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="/static/dist/css/font-awesome.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="/static/dist/css/custom.css" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <style>
+        html,body{height: 100%; overflow-x:hidden; }
+        body{
+            overflow:hidden;
+            text-align:center;
+        }
+        .container{
+            width:100%;
+            padding:0px;
+        }
+        #note_content{
+            border:none;
+            outline:none;
+        }
+        #note_content{
+            width:100%;
+            height:100%;
+            padding:20px 40px;
+        }
+          .box{
+            display:-webkit-flex;
+            -webkit-flex-direction: column;
+            display:flex;
+            flex-direction:column;
+            height:100%;
+        }
+        .box .child{
+        }
+        .box .child1{
+            flex:1;
+        }
+        .title_div{
+             margin:15px 0px 15px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main" class="container" style="height:100%">
+        <form method="post" name="editor_form" id="editor_form" style="height:100%">
+            <div class="box">
+            <div  class="child title_div">
+                <input class="title mousetrap" name="note_title" id="note_title" type="text" placeholder="编辑文章标题" style="outline: none;border:none;outline: none;height:30px;width:840px;outline: none;font-family: Arial;font-size:20px;"><br>
+            </div>
+            <div  class="child tag_div" style="text-align: right;position:relative;  background-color: #dedede">
+                <i class="fa fa-tags"></i>标签:
+                <input id="note_tags" name="notes" type="text" placeholder="用分号分隔标签" style="width:40%">
+                <a id="doaction" href="#" name="submit" style="text-decoration:none;color:#000000;"><i class="fa fa-floppy-o" aria-hidden="true"></i>  提交保存</a>
+{#                <input type="image" src="/static/image/submint.png" alt="Submit" width="24" height="24" >保存提交#}
+            </div>
+            <div class="text_area child1">
+                 <textarea  id= "note_content" name="note_content"  placeholder="书写文章内容"></textarea>
+             </div>
+            </div>
+        </form>
+    </div>
+   <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#doaction").on("click",function(){
+                var note_title = $("#note_title").val();       //获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                var note_content = $("#note_content").val();
+                var note_tags = $("#note_tags").val();//同上
+                $.ajax({
+                    type:"POST",
+                    data: {note_title:note_title, note_content:note_content, note_tags:note_tags},
+                    url: '/editor_storage/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

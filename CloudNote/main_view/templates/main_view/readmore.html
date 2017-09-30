@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>阅读所有</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="/static/dist/css/bootstrap.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="/static/dist/css/font-awesome.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="/static/dist/css/custom.css" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <style>
+{#        html,body{height:100%; overflow-x:hidden; }#}
+        body{
+            width:100%;
+            text-align:left;
+        }
+        #test{
+            height: 20px;
+            padding-left:7px;
+            padding-right: 7px;
+            border: 1px solid  #FFFFFF;
+            border-radius: 10px;
+            width:auto;
+            display:inline-block !important;
+            display:inline;
+            background-color: #FFFFFF;
+        }
+        .container{
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="act">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-large" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+    <div >
+        <div id="header" class="container">
+            <div>
+               <table>
+                   {% for article in article %}
+                   <tr>
+                    <h3>{{ article.title }}</h3><br>
+                       <span style="font-weight:bold;">标签：</span>
+                        {% for tag in tags %}
+                            {% if tag.user_article_id == article.id %}
+                                <div class="container-fluid" style="width:auto; display:inline-block !important; display:inline;padding:0px 5px; ">
+                                    <div class="row-fluid" style="width:auto; display:inline-block !important; display:inline; ">
+                                        <div class="span12" style="width:auto; display:inline-block !important; display:inline; ">
+                                            <span class="label"></span> <span class="badge badge-info">{{ tag.tag }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                       <div>
+                       笔记创建时间：{{ article.create_time }}<br>笔记最后修改时间:{{ article.last_time }}<br>
+                        </div>
+                           <div style="margin: 8px 0px 0px 0px">
+                           <button class ="article_read btn" href="#" article_id = "{{ article.id }}" style="padding:2px 6px"><span>查看详细»</span></button>
+                           <a class = "ajax_delete btn" href="#"  article_id = "{{ article.id }}" style="float:right; _position:relative;"><span><i class="fa fa-trash" aria-hidden="true"></i>删除</span></a>
+                       </div><hr>
+                   <tr>
+                   {% endfor %}
+               </table>
+            </div>
+			</div>
+    </div>
+
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".article_read").on("click",function(){
+                var article_id = $(this).attr("article_id");//获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                window.location.href="/read_article/?article_id="+article_id
+            });
+            $(".ajax_delete").on("click",function(){
+                var article_id = $(this).attr("article_id");
+                $.ajax({
+                    type:"POST",
+                    data: {article_id:article_id},
+                    url: '/delete_article/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

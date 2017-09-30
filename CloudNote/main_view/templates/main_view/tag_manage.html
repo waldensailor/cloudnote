@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>标签管理</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="/static/dist/css/bootstrap.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="/static/dist/css/font-awesome.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="/static/dist/css/custom.css" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    标签名称
+                                </th>
+                                <th>
+                                    笔记条数
+                                </th>
+                                <th>
+                                    查看详细
+                                </th>
+                                <th>
+                                    删除
+                                </th>
+                                <th>
+                                    修改
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for tag in all_tags %}
+                            <tr>
+                                <td tag="{{ tag.tag }}">{{ tag.tag }}</td>
+                                <td>
+                                    {{ tag.count }}
+                                </td>
+                                <td>
+                                    <a class="search_article" href="#" tag = "{{ tag.tag }}"><span>相关笔记</span></a>
+                                </td>
+                                <td>
+                                    <a class="tag_delete" href="#" tag = "{{ tag.tag }}"><span><i class="fa fa-trash" aria-hidden="true"></i>删除该标签</span></a>
+                                </td>
+                                <td>
+                                    <a class="btn">
+                                        修改此标签
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新的标签名称
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="new_tag" style="width:100%;height:25px;border:none;outline: none;font-family: 'Arial Narrow';font-size:20px;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary update_button">
+                            确认修改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <script src="/static/js/jquery2.11.min.js"></script>
+        <script src="/static/js/bootstrap3.7.7.min.js"></script>
+
+     <script>
+        $(document).ready(function(){
+            var old_tag = "";
+            $(".table").find(".btn").on("click",function(){
+                var td1 = $(this).parent().parent().find("td").eq(0);
+                var val = td1.attr("tag");
+                old_tag = val;
+{#                alert(old_tag);#}
+                $("#myModal").modal("show");
+            });
+
+            $(".search_article").on("click",function(){
+                var tag = $(this).attr("tag");//获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                window.location.href="/search_from_tag/?tag="+tag
+            })
+
+            $(".update_button").on("click",function(){
+                var new_tag = $("#new_tag").val()
+                 $.ajax({
+                    type:"POST",
+                    data: {new_tag:new_tag, "old_tag":old_tag},
+                    url: '/update_tag/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+
+
+            $(".tag_delete").on("click",function(){
+                var tag = $(this).attr("tag");
+                $.ajax({
+                    type:"POST",
+                    data: {tag:tag},
+                    url: '/delete_tag/', //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml){
+                        alert(result);                                         //成功时弹出view传回来的结果
+                    },
+                    error: function(){
+                        alert("false");
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+</html>

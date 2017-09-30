@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>云笔记:注册</title>
+	<!-- BOOTSTRAP STYLES-->
+    <link href="/static/dist/css/bootstrap.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="/static/dist/css/font-awesome.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="/static/dist/css/custom.css" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+</head>
+<body>
+    <div class="container">
+        <div class="row text-center  ">
+            <div class="col-md-12">
+                <br /><br />
+                <h2 style="color:#5f6d7e"> 云笔记</h2>
+                 <br />
+            </div>
+        </div>
+         <div class="row">
+               
+                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                        <strong> 完成注册开始云笔记旅行 </strong>
+                            </div>
+                            <div class="panel-body">
+                                <form name="regist"  role="form" method="post"  onsubmit="return check();"  action="/regist_deal/">
+                                    <p style="color:red">
+                                    {{ user_data }}
+                                    </p>
+                                    <div  class="form-group input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"  ></i></span>
+                                            <input type="text" class="form-control"  name="name" placeholder="Username"/>
+                                        </div>
+                                         <div class="form-group input-group">
+                                            <span class="input-group-addon">@</span>
+                                            <input type="text" class="form-control"  name="email" placeholder="Email"/>
+                                        </div>
+                                      <div class="form-group input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                                            <input type="password" class="form-control"  name="password" placeholder="password"/>
+                                        </div>
+                                     <div class="form-group input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                                            <input type="password" class="form-control" name="repassword" placeholder="repassword"/>
+                                        </div>
+                                    <div style="text-align: center">
+                                     <input type="submit" value="完成注册"  class="btn btn-success" formmethod="post" style="width: 200px">
+                                    </div>
+                                        <hr />
+                                    已经注册?  <a href="/login" >返回登录</a>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+
+     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="/static/js/jquery-1.10.2.js"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="/static/js/jquery.metisMenu.js"></script>
+      <!-- CUSTOM SCRIPTS -->
+    <script src="/static/js/custom.js"></script>
+    <script type="text/javascript">
+        //判断form中所有的项不为空，而且邮箱格式正确，而且密码确认相同才返回true执行后台
+        function check(){
+            var name = document.forms["regist"]["name"].value;
+            var email = document.forms["regist"]["email"].value;
+           var password = document.forms["regist"]["password"].value;
+           var repassword = document.forms["regist"]["repassword"].value;
+           if((name!="")&&(email!="")&&(password!="")&&(repassword!="")){
+               var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+               isok = reg.test(email );
+               if (!isok) {
+                   alert("邮箱格式不正确，请重新输入！");
+                   document.getElementsByName("email").focus();
+                   return false;
+               }else if(password != repassword) {
+                   alert("两次密码不同，请重新输入");
+                   return false;
+                }else{
+                   return true;
+               }
+           }else{
+               alert("有信息为空,请检查后重新输入");
+               return false;
+           }
+       }
+    </script>
+</body>
+</html>

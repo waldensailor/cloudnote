@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" href="/static_abc/dist/css/bootstrap.min.css">
+    <!--引入前端框架-->
+</head>
+<h2 class="text-info" >welcome to  Django</h2>
+<!--运用botstrap框架-->
+<div class="btn-group">
+	<button type="button" class="btn btn-default">按钮 1</button>
+	<button type="button" class="btn btn-default">按钮 2</button>
+	<button type="button" class="btn btn-default">按钮 3</button>
+</div>
+<h3>用户输入</h3>
+<form action="/index/" method="post">
+    <input type="text" name="user_name"/>
+    <input type="text" name="user_number"/>
+    <input type="submit" value ="commit"/>
+</form><hr>
+<table border="1">
+    <thead>
+        <th>user</th>
+        <th>account</th>
+    </thead>
+    <tbody>
+    {% for line in data %}
+        <tr>
+            <td>{{line.user}}</td>
+            <td>{{line.pwd}}</td>
+    {% endfor %}
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
